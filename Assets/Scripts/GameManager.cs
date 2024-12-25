@@ -7,14 +7,14 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour 
 {
     //public float levelstartDelay = 2f;
-    public float turnDelay = .1f;
+    public float turnDelay = 0.1f;
     public static GameManager instance = null;
     public BoardManager boardScript;
 
     //private Text levelText;
     //private GameObject levelImage;
     private bool doingSetup;
-    private int level = 1;
+    private int level = 5;
     public int playerFoodPoints = 0;
     private List<Enemy> enemies;
     private bool enemiesMoving;
@@ -34,14 +34,14 @@ public class GameManager : MonoBehaviour
         boardScript = GetComponent<BoardManager>();
         InitGame();
     }
-    private void OnLevelWasLoaded(int index)
-    {
-        level++;
-        InitGame();
-    }
+    //private void OnLevelWasLoaded(int index)
+    //{
+        //level++;
+       // InitGame();
+   // }
     void InitGame()
     {
-        doingSetup = true;
+        //doingSetup = true;
         //levelImage = GameObject.Find("LevelImage");
         //levelText = GameObject.Find("LevelText").GetComponent<Text>();
         //levelText.text = "Level " + level;
@@ -61,11 +61,13 @@ public class GameManager : MonoBehaviour
         //levelText.text = "Has llegado hasta el nivel " + level;
         //levelImage.SetActive(true);
         enabled = false;
+        Debug.Log("Game Over!"); // Mensaje para depurar
+        
     }
     void Update()
     {
         if (playersTurn || enemiesMoving )//|| doingSetup 
-            return;
+            
 
         StartCoroutine(MoveEnemies());
     }
