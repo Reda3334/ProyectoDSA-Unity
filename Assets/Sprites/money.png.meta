@@ -286,6 +286,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1622,7 +1635,67 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      money_0: 3886443268029631212
+      money_1: -4636918659588236314
+      money_10: -254305269448249424
+      money_11: 3867211747865810445
+      money_12: 5571360670099346287
+      money_13: -8025998285490214006
+      money_14: 246880902507175999
+      money_15: -192898628050604411
+      money_16: -3219387910342380218
+      money_17: 3652180444657037678
+      money_18: -5657785544129716184
+      money_19: -7508039050134528143
+      money_2: 8172494856894573217
+      money_20: 1214703467376713905
+      money_21: 8746030160299205560
+      money_22: -8568925303440961822
+      money_23: 2829650521781089330
+      money_24: 8948054444668250196
+      money_25: 7237591340010311360
+      money_26: 2184871363966995105
+      money_27: -1584623091021916646
+      money_28: 4804641577237678288
+      money_29: 8754361421718856704
+      money_3: -868141317977769421
+      money_30: 42647946780848469
+      money_31: -6371840085271754238
+      money_32: 1105790774550753292
+      money_33: 28407271903076278
+      money_34: -3065208483462403500
+      money_35: -5519000224468334302
+      money_36: 5774071905305597029
+      money_37: -5363355169750661755
+      money_38: 6708851973223828329
+      money_39: 1003352338281210426
+      money_4: -8983986471513068581
+      money_40: 6355059398976652004
+      money_41: -8493146777893885643
+      money_42: 92105802369511291
+      money_43: -2501118376513731429
+      money_44: 7086028854540156542
+      money_45: 1337844834407642433
+      money_46: -5698597035562985878
+      money_47: -1772778532639555857
+      money_48: 3003382775073474716
+      money_49: 1082258976912640114
+      money_5: 9166416133314127751
+      money_50: -8237611687887064275
+      money_51: -238232063366674202
+      money_52: -6251030094225246971
+      money_53: -6446164709704831706
+      money_54: 8443688766298581298
+      money_55: 2447502719251937028
+      money_56: 3928928019218825348
+      money_57: 3022452201575247133
+      money_58: -1404487840830188731
+      money_59: 9056574742337246641
+      money_6: -2878822707762491817
+      money_7: 3661262918982688216
+      money_8: 8203927375868982894
+      money_9: -5267665417344231532
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
