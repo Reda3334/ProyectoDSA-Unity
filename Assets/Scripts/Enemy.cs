@@ -9,6 +9,7 @@ public class Enemy : MovingObject
     protected override void OnCantMove<T>(T component)
     {
         Player hitPlayer = component as Player;
+        //hitPlayer.LoseHp(playerDamage);
         GameManager.instance.GameOver();
     }
     public int playerDamage;
@@ -39,6 +40,22 @@ public class Enemy : MovingObject
 
     public void MoveEnemy()
     {
+        if(target == null)
+        {
+            Debug.LogError("Target is not assigned.");
+            return;
+        }
+        int xDir = 0;
+        int yDir = 0;
+
+        if (Mathf.Abs(target.position.x - transform.position.x) < float.Epsilon)
+            yDir = target.position.y > transform.position.y ? 1 : -1;
+        else
+            xDir = target.position.x > transform.position.x ? 1 : -1;
+
+        AttemptMove<Player> (xDir, yDir);
+        
+        /*
         // Calcula la dirección hacia el objetivo (jugador)
         Vector2 direction = (target.position - transform.position).normalized;
 
@@ -64,7 +81,7 @@ public class Enemy : MovingObject
         }
 
         // Realiza el movimiento suave hacia la posición objetivo
-        StartCoroutine(SmoothMovement(targetPosition));
+        StartCoroutine(SmoothMovement(targetPosition));*/
     }
 
     private void AttackPlayer()

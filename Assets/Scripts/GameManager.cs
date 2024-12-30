@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour 
 {
-    //public float levelstartDelay = 2f;
+    public float levelstartDelay = 2f;
     public float turnDelay = 0.1f;
     public static GameManager instance = null;
     public BoardManager boardScript;
 
     public BackendManager backendManager;
-    //private Text levelText;
-    //private GameObject levelImage;
+    private Text levelText;
+    private GameObject levelImage;
     private bool doingSetup;
     private int level = 1;
     public int playerFoodPoints = 0;
@@ -35,40 +35,40 @@ public class GameManager : MonoBehaviour
         boardScript = GetComponent<BoardManager>();
         InitGame();
     }
-    //private void OnLevelWasLoaded(int index)
-    //{
-        //level++;
-       // InitGame();
-   // }
+    private void OnLevelWasLoaded(int index)
+    {
+        level++;
+        InitGame();
+    }
     void InitGame()
     {
-        //doingSetup = true;
-        //levelImage = GameObject.Find("LevelImage");
-        //levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        //levelText.text = "Level " + level;
-        //levelImage.SetActive(true);
-        //Invoke("HideLevelImage", levelstartDelay);
+        doingSetup = true;
+        levelImage = GameObject.Find("LevelImage");
+        levelText = GameObject.Find("LevelText").GetComponent<Text>();
+        levelText.text = "Level " + level;
+        levelImage.SetActive(true);
+        Invoke("HideLevelImage", levelstartDelay);
         enemies.Clear();
         boardScript.SetupScene(level);
     }
 
-    //private void HideLevelImage()
-    //{
-    //levelImage.SetActive(false);
-    //doingSetup = false;
-    //}
+    private void HideLevelImage()
+    {
+        levelImage.SetActive(false);
+        doingSetup = false;
+    }
     public void GameOver()
     {
-        //levelText.text = "Has llegado hasta el nivel " + level;
-        //levelImage.SetActive(true);
+        levelText.text = "You got till level " + level;
+        levelImage.SetActive(true);
         enabled = false;
         Debug.Log("Game Over!"); // Mensaje para depurar
         
     }
     void Update()
     {
-        if (playersTurn || enemiesMoving )//|| doingSetup 
-            
+        if (playersTurn || enemiesMoving || doingSetup)
+            return;
 
         StartCoroutine(MoveEnemies());
     }
