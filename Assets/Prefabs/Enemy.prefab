@@ -202,4 +202,4 @@ MonoBehaviour:
   blockingLayer:
     serializedVersion: 2
     m_Bits: 8
-  playerDamage: 0
+  playerDamage: 1
