@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6405199323603135530}
   - component: {fileID: 8527078174546874624}
   - component: {fileID: -9028307421254362212}
+  - component: {fileID: 840169354817723374}
   m_Layer: 3
   m_Name: OuterWall
   m_TagString: Walls
@@ -175,3 +176,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e221fb421ffad4e87c64c8b29b1497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &840169354817723374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7366173911614212632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea366a2227f14f84ba1ba822102739f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elementId: outerWall
