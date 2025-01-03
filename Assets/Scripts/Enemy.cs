@@ -9,7 +9,7 @@ public class Enemy : MovingObject
     protected override void OnCantMove<T>(T component)
     {
         Player hitPlayer = component as Player;
-        //hitPlayer.LoseHp(playerDamage);
+        hitPlayer.LoseHp(playerDamage);
         GameManager.instance.GameOver();
     }
     public int playerDamage;

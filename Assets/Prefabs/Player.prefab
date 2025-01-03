@@ -204,4 +204,5 @@ MonoBehaviour:
     m_Bits: 8
   pointsPerFood: 1
   restartLevelDelay: 1
+  waitForMessage: 2
   FoodText: {fileID: 0}

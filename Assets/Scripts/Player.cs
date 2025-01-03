@@ -2,12 +2,15 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class Player : MovingObject
 {
+    /*UI RELATED
+    public TextMeshProUGUI FoodText;*/
     public int pointsPerFood = 1;
+    public float waitForMessage = 2f;
     public float restartLevelDelay = 1f;
-    public Text FoodText;
 
     private Animator animator;
     private int food = 0;
@@ -20,7 +23,7 @@ public class Player : MovingObject
     {
         animator = GetComponent<Animator>();
         food = GameManager.instance.playerFoodPoints;
-        FoodText.text = "Bananas: " + food;
+        //FoodText.text = "Bananas: " + food;
         base.Start();
     }
     private void OnDisable() 
@@ -83,6 +86,7 @@ public class Player : MovingObject
 
     protected override void AttemptMove<T>(int xDir, int yDir)
     {
+        //FoodText.text = "Bananas: " + food;
         base.AttemptMove<T>(xDir, yDir);
         RaycastHit2D hit;
         CheckIfGameOver();
@@ -104,10 +108,17 @@ public class Player : MovingObject
         else if (other.tag == "Food")
         {
             food += pointsPerFood;
-            FoodText.text = "+ " + pointsPerFood + " bananas !";
+            //FoodText.text = "+ " + pointsPerFood + " bananas !" + " Bananas: " + food;
             other.gameObject.SetActive(false);
+            //Invoke("writeBananas", waitForMessage);
         }
     }
+    /*
+    private void writeBananas()
+    {
+        FoodText.text = "Bananas: " + food;
+    }
+    */
     protected override void OnCantMove<T>(T component)
     {
         Wall hitWall = component as Wall;

@@ -77,6 +77,11 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    public void LayoutPlayer()
+    {
+        Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
+    }
+
     public void SetupScene(int level)
     {
         BoardSetup();

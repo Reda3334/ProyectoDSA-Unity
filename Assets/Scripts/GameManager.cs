@@ -3,18 +3,24 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.InputSystem.LowLevel;
 
 public class GameManager : MonoBehaviour 
 {
+    /* UI RELATED
     public float levelstartDelay = 2f;
+    private TextMeshProUGUI levelText;
+    private GameObject levelImage;
+    private bool doingSetup;*/
+
+    private Text levelText;
+
     public float turnDelay = 0.1f;
     public static GameManager instance = null;
     public BoardManager boardScript;
 
     public BackendManager backendManager;
-    private Text levelText;
-    private GameObject levelImage;
-    private bool doingSetup;
     private int level = 1;
     public int playerFoodPoints = 0;
     private List<Enemy> enemies;
@@ -42,32 +48,35 @@ public class GameManager : MonoBehaviour
     }
     void InitGame()
     {
-        doingSetup = true;
+        /*doingSetup = true;
         levelImage = GameObject.Find("LevelImage");
-        levelText = GameObject.Find("LevelText").GetComponent<Text>();
+        levelText = GameObject.Find("LevelText").GetComponent<TextMeshProUGUI>();
         levelText.text = "Level " + level;
         levelImage.SetActive(true);
-        Invoke("HideLevelImage", levelstartDelay);
+        Invoke("HideLevelImage", levelstartDelay);*/
+        //levelText = GameObject.Find("LevelText").GetComponent<Text>();
+        //levelText.text = "Level " + level;
         enemies.Clear();
         boardScript.SetupScene(level);
     }
-
+    /*
     private void HideLevelImage()
     {
         levelImage.SetActive(false);
         doingSetup = false;
     }
+    */
     public void GameOver()
     {
-        levelText.text = "You got till level " + level;
-        levelImage.SetActive(true);
+        /*levelText.text = "You got till level " + level;
+        levelImage.SetActive(true);*/
         enabled = false;
         Debug.Log("Game Over!"); // Mensaje para depurar
         
     }
     void Update()
     {
-        if (playersTurn || enemiesMoving || doingSetup)
+        if (playersTurn || enemiesMoving /*|| doingSetup*/)
             return;
 
         StartCoroutine(MoveEnemies());
