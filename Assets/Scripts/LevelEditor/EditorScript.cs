@@ -41,8 +41,11 @@ public class EditorScript : MonoBehaviour
         };
         click.canceled += _ =>
         {
-            if (Vector2.Distance(currentPosition, startPosition) < 5) return; // tune this number
-            RemoveElement(Camera.main.ScreenToWorldPoint(currentPosition));
+            if (Vector2.Distance(currentPosition, startPosition) < 5) // tune this number
+            {
+                RemoveElement(Camera.main.ScreenToWorldPoint(currentPosition));
+            }
+            
         };
     }
 
@@ -110,10 +113,13 @@ public class EditorScript : MonoBehaviour
     public void SaveLevel(string levelName)
     {
         backendManager.SaveLevel(elements, levelName);
+    }
+
+    public void CloseEditor()
+    {
 #if UNITY_ANDROID
-        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-        currentActivity.Call("finish");
+        AndroidJavaClass unityWrapper = new AndroidJavaClass("com.example.proyectodsa_android.activity.UnityWrapperActivity");
+        unityWrapper.CallStatic("closeActivity");
 #endif
     }
 }

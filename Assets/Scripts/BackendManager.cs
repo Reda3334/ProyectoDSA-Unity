@@ -14,7 +14,7 @@ public class BackendManager : MonoBehaviour
 #else
     private string baseUrl = PlayerPrefs.GetString("baseUrl");
     private string cookie = PlayerPrefs.GetString("cookie");
-    private string playerId = PlayerPrefs.GetString("playerId");
+    private string playerId = PlayerPrefs.GetString("userId");
     private string playerName = PlayerPrefs.GetString("playerName");
 #endif
 
@@ -76,8 +76,13 @@ public class BackendManager : MonoBehaviour
 
         string url = $"{baseUrl}/uploadLevel";
         string jsonData = JsonUtility.ToJson(customLevel);
-        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
 
+#if UNITY_ANDROID
+        AndroidJavaClass unityWrapper = new AndroidJavaClass("com.example.proyectodsa_android.activity.UnityWrapperActivity");
+        unityWrapper.CallStatic("sendNewLevel", jsonData);
+        yield return null;
+#else
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
@@ -92,6 +97,7 @@ public class BackendManager : MonoBehaviour
         {
             Debug.LogError($"Error sending level: {request.error}");
         }
+#endif
     }
 }
 
