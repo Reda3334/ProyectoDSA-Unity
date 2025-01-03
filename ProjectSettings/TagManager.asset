@@ -8,6 +8,7 @@ TagManager:
   - Exit
   - Food
   - Walls
+  - BlockingUI
   layers:
   - Default
   - TransparentFX
