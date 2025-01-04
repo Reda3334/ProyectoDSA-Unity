@@ -9,8 +9,8 @@ public class EditorScript : MonoBehaviour
     [SerializeField] GameObject elementIcon;
     [SerializeField] GameObject draggable;
     [SerializeField] Canvas canvas;
-    [SerializeField] int editorWidth;
-    [SerializeField] int editorHeight;
+    private int editorWidth = BoardManager.columns;
+    private int editorHeight = BoardManager.rows;
     [SerializeField] GameObject[] floorTiles;
     [SerializeField] GameObject scrollContent;
     [SerializeField] Transform boardHolder;

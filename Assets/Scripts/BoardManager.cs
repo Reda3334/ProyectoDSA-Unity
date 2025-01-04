@@ -16,8 +16,8 @@ public class BoardManager : MonoBehaviour
             maximum = max;
         }
     }
-    public int columns = 8;
-    public int rows = 8;
+    public static int columns = 10;
+    public static int rows = 10;
     public Count wallCount = new Count(5, 9);
     public Count foodCount = new Count(1, 5);
     public GameObject exit;
