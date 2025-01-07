@@ -13,6 +13,8 @@ public class EditorScript : MonoBehaviour
     private int editorHeight = BoardManager.rows;
     [SerializeField] GameObject[] floorTiles;
     [SerializeField] GameObject scrollContent;
+    [SerializeField] GameObject confirmationPanel;
+    [SerializeField] TMPro.TMP_InputField levelName;
     [SerializeField] Transform boardHolder;
     [SerializeField] Transform elementHolder;
     [SerializeField] BackendManager backendManager;
@@ -106,18 +108,32 @@ public class EditorScript : MonoBehaviour
 
     public void AskSaveLevel()
     {
-        SaveLevel("aa");
-        //TODO confirmation popup
+        confirmationPanel.SetActive(true);
     }
 
-    public void SaveLevel(string levelName)
+    public void ConfirmSave()
     {
-        backendManager.SaveLevel(elements, levelName);
+        if(levelName.text != "")
+        {
+            backendManager.SaveLevel(elements, levelName.text);
+        }
+        else
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            AndroidJavaClass unityWrapper = new AndroidJavaClass("com.example.proyectodsa_android.activity.UnityWrapperActivity");
+            unityWrapper.CallStatic("sendToast", "Debe introducir un nombre!");
+#endif
+        }
+    }
+
+    public void CancelSave()
+    {
+        confirmationPanel.SetActive(false);
     }
 
     public void CloseEditor()
     {
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
         AndroidJavaClass unityWrapper = new AndroidJavaClass("com.example.proyectodsa_android.activity.UnityWrapperActivity");
         unityWrapper.CallStatic("closeActivity");
 #endif

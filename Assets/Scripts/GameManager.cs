@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour 
 {
@@ -39,9 +41,9 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         enemies = new List<Enemy> ();
         boardScript = GetComponent<BoardManager>();
-        InitGame();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    private void OnLevelWasLoaded(int index)
+    private void OnSceneLoaded(Scene s, LoadSceneMode mode)
     {
         level++;
         InitGame();
@@ -105,6 +107,7 @@ public class GameManager : MonoBehaviour
         playersTurn = true;
         enemiesMoving = false;
     }
+
     void EndGame()
     {
         string userID = "4af326f4-c532-11ef-8eb7-0a0027000007"; //id del user = y, email = y, pass = y

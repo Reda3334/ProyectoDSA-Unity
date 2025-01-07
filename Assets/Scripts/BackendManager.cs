@@ -6,21 +6,29 @@ using System;
 
 public class BackendManager : MonoBehaviour
 {
-#if UNITY_EDITOR
-    private string baseUrl = "http://localhost:8080/dsaApp"; // Replace with backend URL, no se cual poner
-    private string cookie = "abc";
-    private string playerId = "123";
-    private string playerName = "jan";
-#else
-    private string baseUrl = PlayerPrefs.GetString("baseUrl");
-    private string cookie = PlayerPrefs.GetString("cookie");
-    private string playerId = PlayerPrefs.GetString("userId");
-    private string playerName = PlayerPrefs.GetString("playerName");
-#endif
+    private string baseUrl;
+    private string cookie;
+    private string playerId;
+    private string playerName;
 
     public void SendScore(string userID, int score, int level)
     {
         StartCoroutine(SendScoreCoroutine(userID, score, level));
+    }
+
+    private void Awake()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        baseUrl = PlayerPrefs.GetString("baseUrl");
+        cookie = PlayerPrefs.GetString("cookie");
+        playerId = PlayerPrefs.GetString("userId");
+        playerName = PlayerPrefs.GetString("playerName");
+#else
+        baseUrl = "http://localhost:8080/dsaApp"; // Replace with backend URL, no se cual poner
+        cookie = "abc";
+        playerId = "123";
+        playerName = "jan";
+#endif
     }
 
     private IEnumerator SendScoreCoroutine(string userID, int score, int level)
@@ -77,7 +85,7 @@ public class BackendManager : MonoBehaviour
         string url = $"{baseUrl}/uploadLevel";
         string jsonData = JsonUtility.ToJson(customLevel);
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
         AndroidJavaClass unityWrapper = new AndroidJavaClass("com.example.proyectodsa_android.activity.UnityWrapperActivity");
         unityWrapper.CallStatic("sendNewLevel", jsonData);
         yield return null;

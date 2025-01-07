@@ -1,8 +1,6 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using TMPro;
+using UnityEngine.InputSystem;
 
 public class Player : MovingObject
 {
@@ -11,12 +9,15 @@ public class Player : MovingObject
     public int pointsPerFood = 1;
     public float waitForMessage = 2f;
     public float restartLevelDelay = 1f;
+    public GameObject circle;
 
+    private GameObject circleInstance = null;
     private Animator animator;
     private int food = 0;
     private int hp = 1;
-    private Vector2 touchOrigin = -Vector2.one;
-
+    private Vector3 touchOrigin = - Vector3.one;
+    private Vector3 currentPosition = Vector3.zero;
+    float moveSpeedPerUnit = 5f;
 
 
     protected override void Start()
@@ -25,6 +26,32 @@ public class Player : MovingObject
         food = GameManager.instance.playerFoodPoints;
         //FoodText.text = "Bananas: " + food;
         base.Start();
+
+        InputAction point = InputSystem.actions.FindActionMap("UI").FindAction("Point");
+        InputAction click = InputSystem.actions.FindActionMap("UI").FindAction("Click");
+
+        point.performed += obj =>
+        {
+            currentPosition = Camera.main.ScreenToWorldPoint(obj.ReadValue<Vector2>());
+        };
+
+        click.performed += obj =>
+        {
+            touchOrigin = currentPosition;
+            if(circleInstance == null)
+            {
+                Vector3 circlePosition = currentPosition;
+                circlePosition.z = 10;
+                circleInstance = Instantiate(circle, circlePosition, Quaternion.identity);
+            }
+        };
+
+        click.canceled += obj =>
+        {
+            touchOrigin = -Vector3.one;
+            Destroy(circleInstance);
+            circleInstance = null;
+        };
     }
     private void OnDisable() 
     {
@@ -32,51 +59,16 @@ public class Player : MovingObject
     }
     void Update()
     {
-        if (!GameManager.instance.playersTurn) return;
-
-        float moveSpeed = 5f;
-        int horizontal = 0;
-        int vertical = 0;
-     #if (UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER)
-        
-            horizontal = (int)(Input.GetAxisRaw("Horizontal"));
-            vertical = (int)(Input.GetAxisRaw("Vertical"));
-            /*if (horizontal != 0)
-                vertical = 0;
-            if (horizontal != 0 || vertical != 0)
-                AttemptMove<Wall>(horizontal, vertical);*/
-            Vector3 movement = new Vector3(horizontal, vertical, 0).normalized;
-            transform.Translate(movement * moveSpeed * Time.deltaTime);
-
-     # else
-        
-            if (Input.touchCount > 0)
+        if (!touchOrigin.Equals(-Vector3.one))
+        {
+            Vector3 moveSpeed = (currentPosition - touchOrigin) * moveSpeedPerUnit;
+            if (moveSpeed.magnitude > 5)
             {
-                Touch myTouch = Input.touches[0];
-
-                if (myTouch.phase == TouchPhase.Began)
-                {
-                    touchOrigin = myTouch.position;
-                }
-
-                else if (myTouch.phase == TouchPhase.Ended && touchOrigin.x >= 0)
-                {
-                    Vector2 touchEnd = myTouch.position;
-                    float x = touchEnd.x - touchOrigin.x;
-                    float y = touchEnd.y - touchOrigin.y;
-                    touchOrigin.x = -1;
-                    if (Mathf.Abs(x) > Mathf.Abs(y))
-                    {
-                        horizontal = x > 0 ? 1 : -1;
-                    }
-                    else 
-                    {
-                        vertical = y > 0 ? 1 : -1;
-                    }
-
-                }
+                moveSpeed.Normalize();
+                moveSpeed *= 5;
             }
-#endif
+            transform.Translate(moveSpeed * Time.deltaTime);
+        }
     }
 
     private void CheckIfGameOver() {
