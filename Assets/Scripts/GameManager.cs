@@ -67,7 +67,24 @@ public class GameManager : MonoBehaviour
         //levelText = GameObject.Find("LevelText").GetComponent<Text>();
         //levelText.text = "Level " + level;
         enemies.Clear();
+
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+        var intent = activity.Call<AndroidJavaObject>("getIntent");
+        string json = intent.Call<string>("getStringExtra", "customLevel");
+        if(string.IsNullOrEmpty(json))
+        {
+            boardScript.SetupScene(level);
+        }
+        else
+        {
+            boardScript.SetupCustomScene(json);
+        }
+#else
         boardScript.SetupScene(level);
+#endif
     }
     
     private void HideLevelImage()

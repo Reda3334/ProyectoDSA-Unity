@@ -1,3 +1,6 @@
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -6,6 +9,7 @@ public class EditorScript : MonoBehaviour
 {
 
     [SerializeField] GameObject[] availableElements;
+    private Dictionary<string, GameObject> availableElementsInstances = new();
     [SerializeField] GameObject elementIcon;
     [SerializeField] GameObject draggable;
     [SerializeField] Canvas canvas;
@@ -51,17 +55,18 @@ public class EditorScript : MonoBehaviour
         };
     }
 
-    public void AddElementAndDraw(GameObject o, Vector3 location)
+    public bool AddElementAndDraw(GameObject o, Vector3 location)
     {
-        if (location.x > editorWidth || location.y > editorHeight) return;
+        if (location.x > editorWidth || location.y > editorHeight) return false;
 
         if(elements[(int)location.x, (int)location.y] != null)
         {
-            Destroy(elements[(int)location.x, (int)location.y]);
+            RemoveElement(location);
         }
         GameObject instance = Instantiate(o, location, Quaternion.identity, elementHolder);
         instance.GetComponent<SpriteRenderer>().sortingLayerName = "Items"; // we make sure everything is visible above the board
         elements[(int)location.x, (int)location.y] = instance;
+        return true;
     }
 
     public void RemoveElement(Vector3 location)
@@ -69,17 +74,57 @@ public class EditorScript : MonoBehaviour
         int x = Mathf.RoundToInt(location.x);
         int y = Mathf.RoundToInt(location.y);
         if (location.x > editorWidth || location.y > editorHeight) return;
-        Debug.Log(x + " " + y);
         if (elements[x, y] != null)
         {
+            GameObject element = elements[x, y];
             Destroy(elements[x, y]);
             elements[x, y] = null;
+
+            if (element == null) return;
+            ElementId script = element.GetComponent<ElementId>();
+            if (script == null) return;
+            string elementId = script.elementId;
+            if (elementId == null) return;
+            
+            if(availableElementsInstances.TryGetValue(elementId, out element))
+            {
+                element.GetComponent<ElementScript>().Quantity++;
+            }
         }
+    }
+
+    [System.Serializable]
+    class InventoryObject
+    {
+        public string userID;
+        public string objectID;
+        public double price;
+        public int quantity;
+        public string url;
+        public string description;
+        public string name;
+    }
+
+    [System.Serializable]
+    class RootJSONObject
+    {
+        public InventoryObject[] objects;
     }
 
     private void DrawObjects()
     {
-        foreach(GameObject o in availableElements)
+#if UNITY_ANDROID && !UNITY_EDITOR
+        var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+        var intent = activity.Call<AndroidJavaObject>("getIntent");
+        string json = intent.Call<string>("getStringExtra", "userItems");
+#else
+        string json = "[{\"description\":\"descripció del plàtan\",\"name\":\"Pared Interior\",\"objectID\":\"innerWall\",\"price\":3.0,\"quantity\":1,\"url\":\"images/platano.jpg\",\"userID\":\"6a8abac5-d446-11ef-9e0a-8038fb17f5f1\"}]";
+#endif
+        RootJSONObject jsonObject = JsonUtility.FromJson<RootJSONObject>("{\"objects\": " + json + "}");
+        List<InventoryObject> objects = jsonObject.objects.ToList();
+
+        foreach (GameObject o in availableElements)
         {
             GameObject instance = Instantiate(elementIcon, scrollContent.transform);
             //instance.transform.localPosition = location;
@@ -89,6 +134,26 @@ public class EditorScript : MonoBehaviour
             elementScript.elementDraggable = draggable;
             elementScript.editorScript = this;
             elementScript.placeable = o;
+            elementScript.Quantity = 3;
+
+            if (!o.TryGetComponent<ElementId>(out var elementId)) return;
+            string objectId = elementId.elementId;
+            if(objectId == null) return;
+
+            availableElementsInstances.Add(objectId, instance);
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+            InventoryObject io = objects.Find(x => x.objectID == objectId);
+            if(io == null)
+            {
+                elementScript.Quantity = 0;
+            }
+            else
+            {
+                elementScript.Quantity = io.quantity;
+            }
+#endif
+
         }
     }
 
@@ -100,7 +165,7 @@ public class EditorScript : MonoBehaviour
             for(int y = 0; y < height; y++)
             {
                 GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
-                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
+                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
                 instance.transform.SetParent(boardHolder);
             }
         }

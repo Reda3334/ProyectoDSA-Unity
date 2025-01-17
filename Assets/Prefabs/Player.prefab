@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5236605398375656945}
   - component: {fileID: 9024395729776834155}
   - component: {fileID: 9086374213341157675}
+  - component: {fileID: -2232952619660139842}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -208,4 +209,16 @@ MonoBehaviour:
   waitForMessage: 2
   restartLevelDelay: 1
   circle: {fileID: 5746642320355397448, guid: dcb438afc14780344a951f90f028813d, type: 3}
-  gameManager: {fileID: 0}
+--- !u!114 &-2232952619660139842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8379300585852297661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea366a2227f14f84ba1ba822102739f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elementId: player

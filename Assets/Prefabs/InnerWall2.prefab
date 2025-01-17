@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9155300577078042641}
   - component: {fileID: 455185173589815617}
   - component: {fileID: -4361114113454948962}
+  - component: {fileID: -1470508615269671109}
   m_Layer: 3
   m_Name: InnerWall2
   m_TagString: Walls
@@ -175,3 +176,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e221fb421ffad4e87c64c8b29b1497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1470508615269671109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6823794019811998436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea366a2227f14f84ba1ba822102739f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elementId: innerWall2

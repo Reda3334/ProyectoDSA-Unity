@@ -8,6 +8,7 @@ public class ElementDrag : MonoBehaviour
     public EditorScript editorScript;
     public string elementId;
     public GameObject placeable;
+    public ElementScript elementScript;
 
     public void DragHandler(BaseEventData eventData)
     {
@@ -32,6 +33,9 @@ public class ElementDrag : MonoBehaviour
         location.y = Mathf.RoundToInt(location.y);
         location.z = 10; // higher than ground
 
-        editorScript.AddElementAndDraw(placeable, location);
+        if(editorScript.AddElementAndDraw(placeable, location))
+        {
+            elementScript.Quantity--;
+        }
     }
 }

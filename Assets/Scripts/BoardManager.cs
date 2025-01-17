@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
+using System.Runtime.CompilerServices;
 
 public class BoardManager : MonoBehaviour
 {
@@ -95,8 +96,36 @@ public class BoardManager : MonoBehaviour
         Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
     }
 
+    public void SetupCustomScene(string json)
+    {
+        BoardSetup();
+        InitialiseList();
 
+        CustomLevel customLevel = (CustomLevel) JsonUtility.FromJson(json, typeof(CustomLevel));
+        foreach (var element in customLevel.elements)
+        {
+            switch (element.id)
+            {
+                case "player":
+                    Instantiate(player, new Vector3(element.x, element.y, 0), Quaternion.identity);
+                    break;
+                case "exit":
+                    Instantiate(exit, new Vector3(element.x, element.y, 0), Quaternion.identity);
+                    break;
+                case "innerWall":
+                    {
+                        GameObject tileChoice = wallTiles[Random.Range(0, wallTiles.Length)];
+                        Instantiate(tileChoice, new Vector3(element.x, element.y, 0), Quaternion.identity);
+                        break;
+                    }
+                case "food":
+                    {
+                        GameObject tileChoice = foodTiles[Random.Range(0, foodTiles.Length)];
+                        Instantiate(tileChoice, new Vector3(element.x, element.y, 0), Quaternion.identity);
+                        break;
+                    }
 
-    
-
+            }
+        }
+    }
 }

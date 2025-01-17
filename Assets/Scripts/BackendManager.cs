@@ -68,7 +68,6 @@ public class BackendManager : MonoBehaviour
             for(int y = 0;  y < elements.GetLength(1); y++)
             {
                 GameObject element = elements[x, y];
-                Debug.Log(element);
                 if (element == null) continue;
                 ElementId script = element.GetComponent<ElementId>();
                 if (script == null) continue;
