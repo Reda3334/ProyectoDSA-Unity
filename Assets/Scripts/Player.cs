@@ -1,15 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Player : MovingObject
 {
-    /*UI RELATED
-    public TextMeshProUGUI FoodText;*/
+    //UI RELATED
+    public Text FoodText;
+
+    public string playerId;
     public int pointsPerFood = 1;
     public float waitForMessage = 2f;
     public float restartLevelDelay = 1f;
     public GameObject circle;
+
+    public GameManager gameManager;
 
     private GameObject circleInstance = null;
     private Animator animator;
@@ -24,7 +29,7 @@ public class Player : MovingObject
     {
         animator = GetComponent<Animator>();
         food = GameManager.instance.playerFoodPoints;
-        //FoodText.text = "Bananas: " + food;
+        FoodText.text = "Bananas: " + food;
         base.Start();
 
         InputAction point = InputSystem.actions.FindActionMap("UI").FindAction("Point");
@@ -78,7 +83,7 @@ public class Player : MovingObject
 
     protected override void AttemptMove<T>(int xDir, int yDir)
     {
-        //FoodText.text = "Bananas: " + food;
+        FoodText.text = "Bananas: " + food;
         base.AttemptMove<T>(xDir, yDir);
         RaycastHit2D hit;
         CheckIfGameOver();
@@ -94,23 +99,26 @@ public class Player : MovingObject
     {
         if (other.tag == "Exit")
         {
+            //Send information to server
+            //gameManager.EndGame(playerId,food,gameManager.getLevel());
+
             Invoke("Restart", restartLevelDelay);
             enabled = false;
         }
         else if (other.tag == "Food")
         {
             food += pointsPerFood;
-            //FoodText.text = "+ " + pointsPerFood + " bananas !" + " Bananas: " + food;
+            FoodText.text = "+ " + pointsPerFood + " bananas !";
             other.gameObject.SetActive(false);
-            //Invoke("writeBananas", waitForMessage);
+            Invoke("writeBananas", waitForMessage);
         }
     }
-    /*
+    
     private void writeBananas()
     {
         FoodText.text = "Bananas: " + food;
     }
-    */
+    
     protected override void OnCantMove<T>(T component)
     {
         Wall hitWall = component as Wall;

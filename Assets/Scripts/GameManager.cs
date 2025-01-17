@@ -10,12 +10,10 @@ using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour 
 {
-    /* UI RELATED
+    //UI RELATED
     public float levelstartDelay = 2f;
-    private TextMeshProUGUI levelText;
     private GameObject levelImage;
-    private bool doingSetup;*/
-
+    private bool doingSetup;
     private Text levelText;
 
     public float turnDelay = 0.1f;
@@ -23,7 +21,7 @@ public class GameManager : MonoBehaviour
     public BoardManager boardScript;
 
     public BackendManager backendManager;
-    private int level = 1;
+    private int level = 0;
     public int playerFoodPoints = 0;
     private List<Enemy> enemies;
     private bool enemiesMoving;
@@ -43,6 +41,14 @@ public class GameManager : MonoBehaviour
         boardScript = GetComponent<BoardManager>();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        level++;
+
+        InitGame();
+    }
+
     private void OnSceneLoaded(Scene s, LoadSceneMode mode)
     {
         level++;
@@ -50,35 +56,37 @@ public class GameManager : MonoBehaviour
     }
     void InitGame()
     {
-        /*doingSetup = true;
+        doingSetup = true;
+
         levelImage = GameObject.Find("LevelImage");
-        levelText = GameObject.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        levelText = GameObject.Find("LevelText").GetComponent<Text>();
         levelText.text = "Level " + level;
         levelImage.SetActive(true);
-        Invoke("HideLevelImage", levelstartDelay);*/
+        Invoke("HideLevelImage", levelstartDelay);
+
         //levelText = GameObject.Find("LevelText").GetComponent<Text>();
         //levelText.text = "Level " + level;
         enemies.Clear();
         boardScript.SetupScene(level);
     }
-    /*
+    
     private void HideLevelImage()
     {
         levelImage.SetActive(false);
         doingSetup = false;
     }
-    */
+    
     public void GameOver()
     {
-        /*levelText.text = "You got till level " + level;
-        levelImage.SetActive(true);*/
+        levelText.text = "You got till level " + level;
+        levelImage.SetActive(true);
         enabled = false;
         Debug.Log("Game Over!"); // Mensaje para depurar
         
     }
     void Update()
     {
-        if (playersTurn || enemiesMoving /*|| doingSetup*/)
+        if (playersTurn || enemiesMoving || doingSetup)
             return;
 
         StartCoroutine(MoveEnemies());
@@ -101,21 +109,22 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].MoveEnemy();
-            yield return new WaitForSeconds(enemies[i].moveTime);
+            //yield return new WaitForSeconds(enemies[i].moveTime);
         }
 
         playersTurn = true;
-        enemiesMoving = false;
+        //enemiesMoving = false;
     }
 
-    void EndGame()
+    public void EndGame(string userID,int score, int level)
     {
-        string userID = "4af326f4-c532-11ef-8eb7-0a0027000007"; //id del user = y, email = y, pass = y
-        int score = playerFoodPoints; 
-        int level = this.level; 
-
         backendManager.SendScore(userID, score, level);
     } 
+
+    public int getLevel()
+    {
+        return level;
+    }
 
 
 }

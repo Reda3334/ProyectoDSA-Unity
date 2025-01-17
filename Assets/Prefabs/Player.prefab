@@ -202,7 +202,10 @@ MonoBehaviour:
   blockingLayer:
     serializedVersion: 2
     m_Bits: 8
+  FoodText: {fileID: 0}
+  playerId: 
   pointsPerFood: 1
   waitForMessage: 2
   restartLevelDelay: 1
   circle: {fileID: 5746642320355397448, guid: dcb438afc14780344a951f90f028813d, type: 3}
+  gameManager: {fileID: 0}

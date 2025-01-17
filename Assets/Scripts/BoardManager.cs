@@ -90,7 +90,7 @@ public class BoardManager : MonoBehaviour
         LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
         int enemyCount = (int)Mathf.Log(level, 2f);
 
-        Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
+        //Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
         Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
     }
