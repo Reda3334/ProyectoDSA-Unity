@@ -79,7 +79,7 @@ public class BackendManager : MonoBehaviour
         }
 
         customLevel.levelName = levelName;
-        customLevel.userId = playerId;
+        customLevel.userName = playerName;
 
         string url = $"{baseUrl}/uploadLevel";
         string jsonData = JsonUtility.ToJson(customLevel);
@@ -135,5 +135,5 @@ public class CustomLevel
 {
     public List<MapElement> elements = new();
     public string levelName;
-    public string userId;
+    public string userName;
 }
