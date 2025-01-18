@@ -104,7 +104,7 @@ public class BoardManager : MonoBehaviour
         CustomLevel customLevel = (CustomLevel) JsonUtility.FromJson(json, typeof(CustomLevel));
         foreach (var element in customLevel.elements)
         {
-            switch (element.id)
+            switch (element.elementId)
             {
                 case "player":
                     Instantiate(player, new Vector3(element.x, element.y, 0), Quaternion.identity);

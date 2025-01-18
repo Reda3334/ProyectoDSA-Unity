@@ -118,13 +118,13 @@ public class ScoreData
 [System.Serializable]
 public class MapElement
 {
-    public string id;
+    public string elementId;
     public int x;
     public int y;
 
     public MapElement(string id, int x, int y)
     {
-        this.id = id;
+        this.elementId = id;
         this.x = x; 
         this.y = y;
     }
