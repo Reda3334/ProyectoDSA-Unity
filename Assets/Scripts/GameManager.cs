@@ -16,12 +16,12 @@ public class GameManager : MonoBehaviour
     private bool doingSetup;
     private Text levelText;
 
-    public float turnDelay = 0.1f;
+    public float turnDelay = 2f;
     public static GameManager instance = null;
     public BoardManager boardScript;
 
     public BackendManager backendManager;
-    private int level = 0;
+    public int level = 0;
     public int playerFoodPoints = 0;
     private List<Enemy> enemies;
     private bool enemiesMoving;
@@ -50,8 +50,6 @@ public class GameManager : MonoBehaviour
     void InitGame()
     {
         doingSetup = true;
-
-        playerFoodPoints = 0;
 
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();

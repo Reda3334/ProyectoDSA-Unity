@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System;
 
 public class Player : MovingObject
 {
@@ -110,14 +111,18 @@ public class Player : MovingObject
             else
             {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            string url = $"{baseUrl}/scores/{userID}";
-            ScoreData scoreData = new ScoreData { Score = gameManager.playerFoodPoints, Level = gameManager.level };
-            string jsonData = JsonUtility.ToJson(scoreData);
-            AndroidJavaClass unityWrapper = new AndroidJavaClass("com.example.proyectodsa_android.activity.UnityWrapperActivity");
-            unityWrapper.CallStatic("sendSL", jsonData);
+                string baseUrl = PlayerPrefs.GetString("baseUrl");
+                string userId = PlayerPrefs.GetString("userId");
+                string url = $"{baseUrl}/scores/{userId}";
+                ScoreData scoreData = new ScoreData { score = food, level = gameManager.level };
+                string jsonData = JsonUtility.ToJson(scoreData);
+                AndroidJavaClass unityWrapper = new AndroidJavaClass("com.example.proyectodsa_android.activity.UnityWrapperActivity");
+                unityWrapper.CallStatic("sendSL", jsonData);
 #endif
                 Invoke("Restart", restartLevelDelay);
                 enabled = false;
+                gameManager.playerFoodPoints = 0;
+                food = 0;
             }
         }
         else if (other.tag == "Food")

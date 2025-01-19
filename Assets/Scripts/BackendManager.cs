@@ -34,7 +34,7 @@ public class BackendManager : MonoBehaviour
     private IEnumerator SendScoreCoroutine(string userID, int score, int level)
     {
         string url = $"{baseUrl}/scores/{userID}";
-        ScoreData scoreData = new ScoreData { Score = score, Level = level };
+        ScoreData scoreData = new ScoreData { score = score, level = level };
         string jsonData = JsonUtility.ToJson(scoreData);
         
         UnityWebRequest request = new UnityWebRequest(url, "POST");
@@ -111,8 +111,8 @@ public class BackendManager : MonoBehaviour
 [System.Serializable]
 public class ScoreData
 {
-    public int Score;
-    public int Level;
+    public int score;
+    public int level;
 }
 
 [System.Serializable]
