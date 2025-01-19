@@ -45,8 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efce7f13f43ba6443b3ff0d8b79f0b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 8
-  rows: 8
   wallCount:
     minimum: 5
     maximum: 9
@@ -60,6 +58,8 @@ MonoBehaviour:
   wallTiles:
   - {fileID: 5413880006347513052, guid: 7d57890e98405964383dc6c81da40aed, type: 3}
   - {fileID: 6823794019811998436, guid: 150d2b3c0a1623d489215a42f1a1f614, type: 3}
+  innerWall: {fileID: 5413880006347513052, guid: 7d57890e98405964383dc6c81da40aed, type: 3}
+  innerWall2: {fileID: 6823794019811998436, guid: 150d2b3c0a1623d489215a42f1a1f614, type: 3}
   foodTiles:
   - {fileID: 1136421427480772806, guid: 27e8fd023cfd1ba4a918d32a8d32a47a, type: 3}
   enemyTiles:
@@ -79,7 +79,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22035c76bc733284eb4f799d3c14d328, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelstartDelay: 2
   turnDelay: 0.1
   boardScript: {fileID: 0}
+  backendManager: {fileID: 0}
   playerFoodPoints: 0
   playersTurn: 1

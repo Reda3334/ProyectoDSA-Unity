@@ -2,7 +2,6 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
-using System.Runtime.CompilerServices;
 
 public class BoardManager : MonoBehaviour
 {
@@ -24,6 +23,8 @@ public class BoardManager : MonoBehaviour
     public GameObject exit;
     public GameObject[] floorTiles;
     public GameObject[] wallTiles;
+    public GameObject innerWall;
+    public GameObject innerWall2;
     public GameObject[] foodTiles;
     public GameObject[] enemyTiles;
     public GameObject[] OuterWallTiles;
@@ -78,11 +79,6 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public void LayoutPlayer()
-    {
-        Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
-    }
-
     public void SetupScene(int level)
     {
         BoardSetup();
@@ -98,7 +94,18 @@ public class BoardManager : MonoBehaviour
 
     public void SetupCustomScene(string json)
     {
-        BoardSetup();
+        boardHolder = new GameObject("Board").transform;
+        for (int x = -1; x < columns + 1; x++)
+        {
+            for (int y = -1; y < rows + 1; y++)
+            {
+                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
+                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
+                instance.transform.SetParent(boardHolder);
+            }
+        }
+
+
         InitialiseList();
 
         CustomLevel customLevel = (CustomLevel) JsonUtility.FromJson(json, typeof(CustomLevel));
@@ -107,23 +114,29 @@ public class BoardManager : MonoBehaviour
             switch (element.elementId)
             {
                 case "player":
-                    Instantiate(player, new Vector3(element.x, element.y, 0), Quaternion.identity);
+                    GameObject.Find("Player").transform.SetPositionAndRotation(new Vector3(element.x, element.y, 0), Quaternion.identity);
                     break;
                 case "exit":
                     Instantiate(exit, new Vector3(element.x, element.y, 0), Quaternion.identity);
                     break;
                 case "innerWall":
+                    Instantiate(innerWall, new Vector3(element.x, element.y, 0), Quaternion.identity);
+                    break;
+                case "innerWall2":
+                    Instantiate(innerWall2, new Vector3(element.x, element.y, 0), Quaternion.identity);
+                    break;
+                case "outerWall":
                     {
-                        GameObject tileChoice = wallTiles[Random.Range(0, wallTiles.Length)];
+                        GameObject tileChoice = OuterWallTiles[Random.Range(0, OuterWallTiles.Length)];
                         Instantiate(tileChoice, new Vector3(element.x, element.y, 0), Quaternion.identity);
-                        break;
                     }
+                    break;
                 case "food":
                     {
                         GameObject tileChoice = foodTiles[Random.Range(0, foodTiles.Length)];
                         Instantiate(tileChoice, new Vector3(element.x, element.y, 0), Quaternion.identity);
-                        break;
                     }
+                    break;
 
             }
         }

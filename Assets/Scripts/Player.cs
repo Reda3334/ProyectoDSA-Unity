@@ -101,9 +101,15 @@ public class Player : MovingObject
         {
             //Send information to server
             //gameManager.EndGame(playerId,food,gameManager.getLevel());
-
-            Invoke("Restart", restartLevelDelay);
-            enabled = false;
+            if (gameManager.isCustomLevel)
+            {
+                Loader.CloseGame();
+            }
+            else
+            {
+                Invoke("Restart", restartLevelDelay);
+                enabled = false;
+            }
         }
         else if (other.tag == "Food")
         {

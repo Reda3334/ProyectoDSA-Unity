@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     private List<Enemy> enemies;
     private bool enemiesMoving;
     [HideInInspector] public bool playersTurn = true;
-     
- 
+
+    public bool isCustomLevel;
 
     void Awake()
     {
@@ -42,13 +42,6 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnLevelWasLoaded(int level)
-    {
-        level++;
-
-        InitGame();
-    }
-
     private void OnSceneLoaded(Scene s, LoadSceneMode mode)
     {
         level++;
@@ -60,8 +53,7 @@ public class GameManager : MonoBehaviour
 
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        levelText.text = "Level " + level;
-        levelImage.SetActive(true);
+        
         Invoke("HideLevelImage", levelstartDelay);
 
         //levelText = GameObject.Find("LevelText").GetComponent<Text>();
@@ -76,14 +68,23 @@ public class GameManager : MonoBehaviour
         string json = intent.Call<string>("getStringExtra", "customLevel");
         if(string.IsNullOrEmpty(json))
         {
+            isCustomLevel = false;
             boardScript.SetupScene(level);
+            levelText.text = "Level " + level;
+            levelImage.SetActive(true);
         }
         else
         {
+            isCustomLevel = true;
             boardScript.SetupCustomScene(json);
+            levelText.text = "Custom level";
+            levelImage.SetActive(true);
         }
 #else
+        isCustomLevel = false;
         boardScript.SetupScene(level);
+        levelText.text = "Level " + level;
+        levelImage.SetActive(true);
 #endif
     }
     
