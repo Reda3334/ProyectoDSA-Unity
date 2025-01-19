@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-        else
+        else if (instance!=this)
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     void InitGame()
     {
         doingSetup = true;
+
+        playerFoodPoints = 0;
 
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
@@ -104,8 +106,8 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (playersTurn || enemiesMoving || doingSetup)
-            return;
+        /*if (playersTurn || enemiesMoving || doingSetup)
+            return;*/
 
         StartCoroutine(MoveEnemies());
     }
@@ -137,7 +139,7 @@ public class GameManager : MonoBehaviour
     public void EndGame(string userID,int score, int level)
     {
         backendManager.SendScore(userID, score, level);
-    } 
+    }
 
     public int getLevel()
     {

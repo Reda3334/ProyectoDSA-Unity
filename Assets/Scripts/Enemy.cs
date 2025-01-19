@@ -10,7 +10,7 @@ public class Enemy : MovingObject
     {
         Player hitPlayer = component as Player;
         hitPlayer.LoseHp(playerDamage);
-        GameManager.instance.GameOver();
+        //GameManager.instance.GameOver();
     }
     public int playerDamage;
 
@@ -40,11 +40,12 @@ public class Enemy : MovingObject
 
     public void MoveEnemy()
     {
-        /*if(target == null)
+        
+        if(target == null)
         {
             Debug.LogError("Target is not assigned.");
             return;
-        }*/
+        }
         int xDir = 0;
         int yDir = 0;
 

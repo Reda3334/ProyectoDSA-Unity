@@ -86,10 +86,10 @@ public class BoardManager : MonoBehaviour
         LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
         LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
         int enemyCount = (int)Mathf.Log(level, 2f);
-
-        //Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
+
         Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+        //Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
     public void SetupCustomScene(string json)

@@ -64,6 +64,8 @@ public class Player : MovingObject
     }
     void Update()
     {
+        if (!GameManager.instance.playersTurn) return;
+
         if (!touchOrigin.Equals(-Vector3.one))
         {
             Vector3 moveSpeed = (currentPosition - touchOrigin) * moveSpeedPerUnit;
@@ -107,6 +109,13 @@ public class Player : MovingObject
             }
             else
             {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            string url = $"{baseUrl}/scores/{userID}";
+            ScoreData scoreData = new ScoreData { Score = gameManager.playerFoodPoints, Level = gameManager.level };
+            string jsonData = JsonUtility.ToJson(scoreData);
+            AndroidJavaClass unityWrapper = new AndroidJavaClass("com.example.proyectodsa_android.activity.UnityWrapperActivity");
+            unityWrapper.CallStatic("sendSL", jsonData);
+#endif
                 Invoke("Restart", restartLevelDelay);
                 enabled = false;
             }

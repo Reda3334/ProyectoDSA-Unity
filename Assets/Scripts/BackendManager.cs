@@ -36,7 +36,7 @@ public class BackendManager : MonoBehaviour
         string url = $"{baseUrl}/scores/{userID}";
         ScoreData scoreData = new ScoreData { Score = score, Level = level };
         string jsonData = JsonUtility.ToJson(scoreData);
-
+        
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
